@@ -1,0 +1,203 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Class="Predators_and_preys.MainPage">
+    <ContentPage.Resources>
+        <Style x:Key="InvalidEntryStyle" TargetType="Entry">
+            <Setter Property="TextColor" Value="Red" />
+        </Style>
+        <Style x:Key="ValidEntryStyle" TargetType="Entry">
+            <Setter Property="TextColor" Value="Black" />
+        </Style>
+    </ContentPage.Resources>
+    <ScrollView>
+        <HorizontalStackLayout
+            Spacing="25"
+            VerticalOptions="Center"
+            HorizontalOptions="Start">
+
+            <VerticalStackLayout
+                HorizontalOptions="Center"
+                VerticalOptions="Center">
+              
+            <Grid
+                VerticalOptions="Center"
+                HorizontalOptions="Center"
+                
+                Padding="80,0,0,30">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="150" />
+                    <ColumnDefinition Width="190" />
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="65" />
+                    <RowDefinition Height="65" />
+                    <RowDefinition Height="65" />
+                    <RowDefinition Height="65" />
+                </Grid.RowDefinitions>
+
+                <Label
+                    Text="Map size"
+                    FontSize="Body"
+                    Padding="0,1.5,0,0"
+                    Grid.Column="0"
+                    Grid.Row="0"/>
+
+                <Label
+                    Text="Predators"
+                    FontSize="Body"
+                    Padding="0,5,20,0"
+                    Grid.Column="0"
+                    Grid.Row="1"/>
+
+                <Label
+                    Text="Prey"
+                    FontSize="Body"
+                    Padding="0,5,20,0"
+                    Grid.Column="0"
+                    Grid.Row="2"/>
+
+                <Label
+                    Text="Turns"
+                    FontSize="Body"
+                    Padding="0,5,20,0"
+                    Grid.Column="0"
+                    Grid.Row="3"/>
+
+                <HorizontalStackLayout
+                    Padding="-10,0,0,0"
+                    RadioButtonGroup.GroupName="MapSize"
+                    Grid.Column="1"
+                    Grid.Row="0">
+
+                    <RadioButton
+                        Content="32"
+                        Value="32"
+                        CheckedChanged = "OnMapSizeCheckedChanged"
+                        Padding="10,0,0,0"/>
+
+                    <RadioButton
+                        Content="64"
+                        Value="64"
+                        IsChecked="True"
+                        CheckedChanged = "OnMapSizeCheckedChanged"
+                        Padding="10,0,0,0"/>
+
+                    <RadioButton
+                        Content="128"
+                        Value="128"
+                        CheckedChanged = "OnMapSizeCheckedChanged"
+                        Padding="10,0,0,0"/>
+
+                </HorizontalStackLayout>
+
+                <HorizontalStackLayout
+                    Grid.Column="1"
+                    Grid.Row="1">
+
+                    <Entry
+                        MaximumWidthRequest="30"
+                        Placeholder="100"
+                        FontSize="14"
+                        VerticalOptions="Start"
+                        MaxLength ="3"
+                        HorizontalTextAlignment="Center"
+                        Keyboard="Numeric"
+                        />
+
+                    <Stepper
+                        Minimum ="0"
+                        Maximum="10"
+                        Increment ="1"
+                        VerticalOptions = "Center"
+                        HeightRequest="50"
+                        Margin="10,0,0,0"
+                        WidthRequest="10"
+                        />
+
+                </HorizontalStackLayout>
+
+                <HorizontalStackLayout
+                    Grid.Column="1"
+                    Grid.Row="2">
+
+                    <Entry
+                        TextChanged="PredatorCountTextChanged"
+                        MaximumWidthRequest="30"
+                        Placeholder="300"
+                        FontSize="14"
+                        VerticalOptions="Start"
+                        MaxLength ="3"
+                        HorizontalTextAlignment="Center">
+                        <Entry.Behaviors>
+                                <toolkit:NumericValidationBehavior
+                                    MaximumValue="39"
+                                    InvalidStyle="{StaticResource InvalidEntryStyle}"
+                ValidStyle="{StaticResource ValidEntryStyle}"/>
+
+                            </Entry.Behaviors>
+                        </Entry>
+                    <Stepper
+                        Minimum ="0"
+                        Maximum="10"
+                        Increment ="1"
+                        VerticalOptions = "Center"
+                        HeightRequest="50"
+                        Margin="10,0,0,0"
+                        WidthRequest="10"
+                        />
+
+                </HorizontalStackLayout>
+
+                <HorizontalStackLayout
+                    Grid.Column="1"
+                    Grid.Row="3">
+
+                    <Entry
+                        MaximumWidthRequest="30"
+                        Placeholder="100"
+                        FontSize="14"
+                        VerticalOptions="Start"
+                        MaxLength ="3"
+                        HorizontalTextAlignment="Center"
+                        />
+
+                    <Stepper
+                        Minimum ="0"
+                        Maximum="10"
+                        Increment ="1"
+                        VerticalOptions = "Center"
+                        HeightRequest="50"
+                        Margin="10,0,0,0"
+                        WidthRequest="10"
+                        />
+
+                </HorizontalStackLayout>
+
+            </Grid>
+
+            <Button
+                Margin="80,0,0,0"
+                x:Name="StartButton"
+                Text="Start"
+                SemanticProperties.Hint="Counts the number of times you click"
+                Clicked="OnStartClicked"
+                HorizontalOptions="Center"/>
+
+            </VerticalStackLayout>
+
+            <Image
+                 Source="mainpage.png"
+                 HorizontalOptions="Center"
+                 MaximumHeightRequest="400"
+                 MaximumWidthRequest="500"/>
+
+        </HorizontalStackLayout>
+    </ScrollView>
+
+</ContentPage>
+
+<!-- ▶ ⏸ ⏹ -->
