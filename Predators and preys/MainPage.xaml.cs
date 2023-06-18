@@ -2,41 +2,61 @@
 
 public partial class MainPage : ContentPage
 {
-	public int NumOfPredators { get; set; }
-	public int MaxOfPredators { get; set; }
-	public int NumOfPreys { get; set; }
-	public int MaxOfPreys { get; set; }
-	public int NumOfTurns { get; set; }
-	public int MapSize { get; set; }
-	
-	public MainPage()
-	{
-		InitializeComponent();
-	}
+    private readonly MapConfig _mapConfig = new MapConfig();
 
-	private void OnStartClicked(object sender, EventArgs e)
-	{
-        SemanticScreenReader.Announce(StartButton.Text);
-    }
-
-	private void OnMapSizeCheckedChanged(object sender, CheckedChangedEventArgs e)
-	{
-        var selectedRadioButton = ((RadioButton)sender);
-		MapSize = Convert.ToInt32(selectedRadioButton.Value);
-    }
-
-    private void OnPredatorCheckedChanged(object sender, EventArgs e)
-	{
-
-	}
-
-    private void OnPreyCountCheckedChanged(object sender, EventArgs e)
+    public MainPage()
     {
+        InitializeComponent();
 
+        PreysEntry.Placeholder = _mapConfig.MaxOfPreys.ToString();
+        PreysValidator.MaximumValue = _mapConfig.MaxOfPreys;
+
+        PredatorsEntry.Placeholder = _mapConfig.MaxOfPredators.ToString();
+        PredatorsValidator.MaximumValue = _mapConfig.MaxOfPredators;
     }
 
-    void PredatorCountTextChanged(Object sender, TextChangedEventArgs e)
+    private async void OnStartClicked(object sender, EventArgs e)
     {
-		Entry entry = (Entry)sender;
+        if (TurnsValidator.IsValid && PreysValidator.IsValid && PredatorsValidator.IsValid)
+            await Navigation.PushAsync(new SimulationPage(_mapConfig));
+    }
+
+    private void OnMapSizeCheckedChanged(object sender, CheckedChangedEventArgs e)
+    {
+        var selectedRadioButton = ((RadioButton) sender);
+        _mapConfig.MapSize = Convert.ToInt32(selectedRadioButton.Value);
+
+        PreysEntry.Placeholder = _mapConfig.MaxOfPreys.ToString();
+        PreysValidator.MaximumValue = _mapConfig.MaxOfPreys;
+        
+        PredatorsEntry.Placeholder = _mapConfig.MaxOfPredators.ToString();
+        PredatorsValidator.MaximumValue = _mapConfig.MaxOfPredators;
+    }
+
+    private void PredatorsEntry_OnCompleted(object sender, EventArgs e)
+    {
+        if (int.TryParse(PredatorsEntry.Text, out var predators))
+        {
+            if (predators > 0 || predators <= _mapConfig.MaxOfPredators)
+                _mapConfig.NumOfPredators = predators;
+        }
+    }
+
+    private void PreysEntry_OnCompleted(object sender, EventArgs e)
+    {
+        if (int.TryParse(PreysEntry.Text, out var preys))
+        {
+            if (preys > 0 || preys <= _mapConfig.MaxOfPreys)
+                _mapConfig.NumOfPreys = preys;
+        }
+    }
+
+    private void TurnsEntry_OnCompleted(object sender, EventArgs e)
+    {
+        if (int.TryParse(TurnsEntry.Text, out var turns))
+        {
+            if (turns > 0)
+                _mapConfig.NumOfTurns = turns;
+        }
     }
 }

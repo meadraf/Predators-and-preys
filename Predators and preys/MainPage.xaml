@@ -1,4 +1,5 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
+
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
@@ -20,180 +21,164 @@
             <VerticalStackLayout
                 HorizontalOptions="Center"
                 VerticalOptions="Center">
-              
-            <Grid
-                VerticalOptions="Center"
-                HorizontalOptions="Center"
-                
-                Padding="80,0,0,30">
 
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="150" />
-                    <ColumnDefinition Width="190" />
-                </Grid.ColumnDefinitions>
+                <Grid
+                    VerticalOptions="Center"
+                    HorizontalOptions="Center"
 
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="65" />
-                    <RowDefinition Height="65" />
-                    <RowDefinition Height="65" />
-                    <RowDefinition Height="65" />
-                </Grid.RowDefinitions>
+                    Padding="80,0,0,30">
 
-                <Label
-                    Text="Map size"
-                    FontSize="Body"
-                    Padding="0,1.5,0,0"
-                    Grid.Column="0"
-                    Grid.Row="0"/>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="150" />
+                        <ColumnDefinition Width="190" />
+                    </Grid.ColumnDefinitions>
 
-                <Label
-                    Text="Predators"
-                    FontSize="Body"
-                    Padding="0,5,20,0"
-                    Grid.Column="0"
-                    Grid.Row="1"/>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="65" />
+                        <RowDefinition Height="65" />
+                        <RowDefinition Height="65" />
+                        <RowDefinition Height="65" />
+                    </Grid.RowDefinitions>
 
-                <Label
-                    Text="Prey"
-                    FontSize="Body"
-                    Padding="0,5,20,0"
-                    Grid.Column="0"
-                    Grid.Row="2"/>
+                    <Label
+                        Text="Map size"
+                        FontSize="Body"
+                        Padding="0,1.5,0,0"
+                        Grid.Column="0"
+                        Grid.Row="0" />
 
-                <Label
-                    Text="Turns"
-                    FontSize="Body"
-                    Padding="0,5,20,0"
-                    Grid.Column="0"
-                    Grid.Row="3"/>
+                    <Label
+                        Text="Predators"
+                        FontSize="Body"
+                        Padding="0,5,20,0"
+                        Grid.Column="0"
+                        Grid.Row="1" />
 
-                <HorizontalStackLayout
-                    Padding="-10,0,0,0"
-                    RadioButtonGroup.GroupName="MapSize"
-                    Grid.Column="1"
-                    Grid.Row="0">
+                    <Label
+                        Text="Prey"
+                        FontSize="Body"
+                        Padding="0,5,20,0"
+                        Grid.Column="0"
+                        Grid.Row="2" />
 
-                    <RadioButton
-                        Content="32"
-                        Value="32"
-                        CheckedChanged = "OnMapSizeCheckedChanged"
-                        Padding="10,0,0,0"/>
+                    <Label
+                        Text="Turns"
+                        FontSize="Body"
+                        Padding="0,5,20,0"
+                        Grid.Column="0"
+                        Grid.Row="3" />
 
-                    <RadioButton
-                        Content="64"
-                        Value="64"
-                        IsChecked="True"
-                        CheckedChanged = "OnMapSizeCheckedChanged"
-                        Padding="10,0,0,0"/>
+                    <HorizontalStackLayout
+                        Padding="-10,0,0,0"
+                        RadioButtonGroup.GroupName="MapSize"
+                        Grid.Column="1"
+                        Grid.Row="0">
 
-                    <RadioButton
-                        Content="128"
-                        Value="128"
-                        CheckedChanged = "OnMapSizeCheckedChanged"
-                        Padding="10,0,0,0"/>
+                        <RadioButton
+                            Content="15"
+                            Value="15"
+                            CheckedChanged="OnMapSizeCheckedChanged"
+                            Padding="10,0,0,0" />
 
-                </HorizontalStackLayout>
+                        <RadioButton
+                            Content="20"
+                            Value="20"
+                            IsChecked="True"
+                            CheckedChanged="OnMapSizeCheckedChanged"
+                            Padding="10,0,0,0" />
 
-                <HorizontalStackLayout
-                    Grid.Column="1"
-                    Grid.Row="1">
+                        <RadioButton
+                            Content="30"
+                            Value="30"
+                            CheckedChanged="OnMapSizeCheckedChanged"
+                            Padding="10,0,0,0" />
 
-                    <Entry
-                        MaximumWidthRequest="30"
-                        Placeholder="100"
-                        FontSize="14"
-                        VerticalOptions="Start"
-                        MaxLength ="3"
-                        HorizontalTextAlignment="Center"
-                        Keyboard="Numeric"
-                        />
+                    </HorizontalStackLayout>
 
-                    <Stepper
-                        Minimum ="0"
-                        Maximum="10"
-                        Increment ="1"
-                        VerticalOptions = "Center"
-                        HeightRequest="50"
-                        Margin="10,0,0,0"
-                        WidthRequest="10"
-                        />
+                    <HorizontalStackLayout
+                        Grid.Column="1"
+                        Grid.Row="1">
 
-                </HorizontalStackLayout>
-
-                <HorizontalStackLayout
-                    Grid.Column="1"
-                    Grid.Row="2">
-
-                    <Entry
-                        TextChanged="PredatorCountTextChanged"
-                        MaximumWidthRequest="30"
-                        Placeholder="300"
-                        FontSize="14"
-                        VerticalOptions="Start"
-                        MaxLength ="3"
-                        HorizontalTextAlignment="Center">
-                        <Entry.Behaviors>
+                        <Entry x:Name="PredatorsEntry"
+                               Completed="PredatorsEntry_OnCompleted"
+                               WidthRequest="60"
+                               FontSize="14"
+                               VerticalOptions="Start"
+                               MaxLength="3"
+                               HorizontalTextAlignment="Center"
+                               Keyboard="Numeric">
+                            <Entry.Behaviors>
                                 <toolkit:NumericValidationBehavior
-                                    MaximumValue="39"
+                                    x:Name="PredatorsValidator"
+                                    MaximumValue="200"
+                                    MinimumValue="1"
                                     InvalidStyle="{StaticResource InvalidEntryStyle}"
-                ValidStyle="{StaticResource ValidEntryStyle}"/>
+                                    ValidStyle="{StaticResource ValidEntryStyle}" />
 
                             </Entry.Behaviors>
                         </Entry>
-                    <Stepper
-                        Minimum ="0"
-                        Maximum="10"
-                        Increment ="1"
-                        VerticalOptions = "Center"
-                        HeightRequest="50"
-                        Margin="10,0,0,0"
-                        WidthRequest="10"
-                        />
+                    </HorizontalStackLayout>
 
-                </HorizontalStackLayout>
+                    <HorizontalStackLayout
+                        Grid.Column="1"
+                        Grid.Row="2">
 
-                <HorizontalStackLayout
-                    Grid.Column="1"
-                    Grid.Row="3">
+                        <Entry x:Name="PreysEntry"
+                               Completed="PreysEntry_OnCompleted"
+                               WidthRequest="60"
+                               FontSize="14"
+                               VerticalOptions="Start"
+                               MaxLength="3"
+                               HorizontalTextAlignment="Center">
+                            <Entry.Behaviors>
+                                <toolkit:NumericValidationBehavior
+                                    x:Name="PreysValidator"
+                                    MinimumValue="1"
+                                    InvalidStyle="{StaticResource InvalidEntryStyle}"
+                                    ValidStyle="{StaticResource ValidEntryStyle}" />
 
-                    <Entry
-                        MaximumWidthRequest="30"
-                        Placeholder="100"
-                        FontSize="14"
-                        VerticalOptions="Start"
-                        MaxLength ="3"
-                        HorizontalTextAlignment="Center"
-                        />
+                            </Entry.Behaviors>
+                        </Entry>
 
-                    <Stepper
-                        Minimum ="0"
-                        Maximum="10"
-                        Increment ="1"
-                        VerticalOptions = "Center"
-                        HeightRequest="50"
-                        Margin="10,0,0,0"
-                        WidthRequest="10"
-                        />
+                    </HorizontalStackLayout>
 
-                </HorizontalStackLayout>
+                    <HorizontalStackLayout
+                        Grid.Column="1"
+                        Grid.Row="3">
 
-            </Grid>
+                        <Entry x:Name="TurnsEntry"
+                               Completed="TurnsEntry_OnCompleted"
+                               WidthRequest="60"
+                               Placeholder="100"
+                               FontSize="14"
+                               VerticalOptions="Start"
+                               MaxLength="3"
+                               HorizontalTextAlignment="Center">
+                            <Entry.Behaviors>
+                                <toolkit:NumericValidationBehavior
+                                    x:Name="TurnsValidator"
+                                    MinimumValue="1"
+                                    InvalidStyle="{StaticResource InvalidEntryStyle}"
+                                    ValidStyle="{StaticResource ValidEntryStyle}" />
+                            </Entry.Behaviors>
+                        </Entry>
+                    </HorizontalStackLayout>
 
-            <Button
-                Margin="80,0,0,0"
-                x:Name="StartButton"
-                Text="Start"
-                SemanticProperties.Hint="Counts the number of times you click"
-                Clicked="OnStartClicked"
-                HorizontalOptions="Center"/>
-
+                </Grid>
+                <Button
+                    Margin="80,0,0,0"
+                    x:Name="StartButton"
+                    Text="Start"
+                    SemanticProperties.Hint="Counts the number of times you click"
+                    Clicked="OnStartClicked"
+                    HorizontalOptions="Center" />
             </VerticalStackLayout>
 
             <Image
-                 Source="mainpage.png"
-                 HorizontalOptions="Center"
-                 MaximumHeightRequest="400"
-                 MaximumWidthRequest="500"/>
+                Source="mainpage.png"
+                HorizontalOptions="Center"
+                MaximumHeightRequest="400"
+                MaximumWidthRequest="500" />
 
         </HorizontalStackLayout>
     </ScrollView>
