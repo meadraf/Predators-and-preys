@@ -7,6 +7,7 @@ public class MapConfig
         MapSize = 20;
         NumOfPreys = MaxOfPreys;
         NumOfPredators = MaxOfPredators;
+        NumOfTurns = 100;
     }
 
     public int NumOfPredators { get; set; }

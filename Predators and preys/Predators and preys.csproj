@@ -35,6 +35,24 @@
 	</PropertyGroup>
 	<ItemGroup>
 	  <MauiImage Remove="Resources\Images\dotnet_bot.svg" />
+	  <None Remove="Resources\Images\Animals\Predators\bear.svg" />
+	  <MauiImage Include="Resources\Images\Animals\Predators\bear.svg" />
+	  <None Remove="Resources\Images\Animals\Predators\fox.svg" />
+	  <MauiImage Include="Resources\Images\Animals\Predators\fox.svg" />
+	  <None Remove="Resources\Images\Animals\Predators\tiger.svg" />
+	  <MauiImage Include="Resources\Images\Animals\Predators\tiger.svg" />
+	  <None Remove="Resources\Images\Animals\Predators\wolf.svg" />
+	  <MauiImage Include="Resources\Images\Animals\Predators\wolf.svg" />
+	  <None Remove="Resources\Images\Animals\Preys\deer_female.svg" />
+	  <MauiImage Include="Resources\Images\Animals\Preys\deer_female.svg" />
+	  <None Remove="Resources\Images\Animals\Preys\deer_male.svg" />
+	  <MauiImage Include="Resources\Images\Animals\Preys\deer_male.svg" />
+	  <None Remove="Resources\Images\Animals\Preys\pig.svg" />
+	  <MauiImage Include="Resources\Images\Animals\Preys\pig.svg" />
+	  <None Remove="Resources\Images\Animals\Preys\rabbit.svg" />
+	  <MauiImage Include="Resources\Images\Animals\Preys\rabbit.svg" />
+	  <None Remove="Resources\Images\Animals\Preys\sheep.svg" />
+	  <MauiImage Include="Resources\Images\Animals\Preys\sheep.svg" />
 	</ItemGroup>
 	<ItemGroup>
 		<!-- App Icon -->
@@ -47,8 +65,6 @@
 		<!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
 		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
 		<MauiIcon Include="Resources\AppIcon\appicon.svg" />
-		<MauiImage Include="Resources\Images\MainPage\tiger.svg" />
-		<MauiImage Include="Resources\Images\MainPage\deer.svg" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -66,6 +82,7 @@
 	  <None Remove="CommunityToolkit.Maui" />
 	</ItemGroup>
 	<ItemGroup>
+	  <Folder Include="GameLogic\" />
 	  <Folder Include="Resources\AppIcon\" />
 	</ItemGroup>
 </Project>

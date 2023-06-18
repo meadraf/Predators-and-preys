@@ -100,7 +100,7 @@
                         Grid.Row="1">
 
                         <Entry x:Name="PredatorsEntry"
-                               Completed="PredatorsEntry_OnCompleted"
+                               TextChanged="PredatorsEntry_OnCompleted"
                                WidthRequest="60"
                                FontSize="14"
                                VerticalOptions="Start"
@@ -124,7 +124,7 @@
                         Grid.Row="2">
 
                         <Entry x:Name="PreysEntry"
-                               Completed="PreysEntry_OnCompleted"
+                               TextChanged="PreysEntry_OnCompleted"
                                WidthRequest="60"
                                FontSize="14"
                                VerticalOptions="Start"
@@ -147,7 +147,7 @@
                         Grid.Row="3">
 
                         <Entry x:Name="TurnsEntry"
-                               Completed="TurnsEntry_OnCompleted"
+                               TextChanged="TurnsEntry_OnCompleted"
                                WidthRequest="60"
                                Placeholder="100"
                                FontSize="14"
