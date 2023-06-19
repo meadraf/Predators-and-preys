@@ -14,6 +14,19 @@ class Visualisation : BindableObject
     private bool _mapReady;
     private readonly Simulation.Simulation _simulation;
 
+    public int ImageSize
+    {
+        get
+        {
+            return _gameModelMap.GetLength(1) switch
+            {
+                20 => 30,
+                30 => 20,
+                _ => 40
+            };
+        }
+    }
+
     public bool MapReady
     {
         get => _mapReady;
@@ -112,8 +125,8 @@ class Visualisation : BindableObject
                 {
                     var image = new Image
                     {
-                        HeightRequest = 30,
-                        WidthRequest = 30,
+                        HeightRequest = ImageSize,
+                        WidthRequest = ImageSize,
                         BindingContext = item
                     };
                     image.SetBinding(Image.SourceProperty, new Binding($"ValueString"));
