@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using Microsoft.Maui.Controls;
 using Predators_and_preys.GameLogic.Objects.ObjectHierarchy;
 
 namespace Predators_and_preys.GameLogic;
@@ -71,21 +72,35 @@ class Visualisation : BindableObject
     {
         MainThread.BeginInvokeOnMainThread(async () =>
         {
-            var buttonContainer = AddButtonsToContainer();
             var startStop = CreateStopButton();
-            
-            var scrollView = new ScrollView();
             var horizontalStack = new HorizontalStackLayout()
             {
                 BackgroundColor = new Color(255, 255, 255),
                 HorizontalOptions = LayoutOptions.Start,
                 VerticalOptions = LayoutOptions.Center,
-                Margin = new Thickness(20,20,20,20),
+                Margin = new Thickness(20, 20, 20, 20),
             };
             var verticalStack = new VerticalStackLayout()
             {
                 HorizontalOptions = LayoutOptions.Center,
             };
+
+            var labelsLayout = new VerticalStackLayout() { Margin = new Thickness(40,0,0,0)};
+            var grid = new Grid
+            {
+                HorizontalOptions = LayoutOptions.Center,
+                VerticalOptions = LayoutOptions.Center,
+                Margin = new Thickness(20,30,0,0)
+            };
+
+            CreateLabels(grid);
+
+            grid.AddColumnDefinition(new ColumnDefinition() {Width = 110});
+            grid.AddColumnDefinition(new ColumnDefinition() {Width = 110});
+            grid.AddRowDefinition(new RowDefinition() {Height = 50});
+            grid.AddRowDefinition(new RowDefinition() {Height = 50});
+            grid.AddRowDefinition(new RowDefinition() {Height = 50});
+
             horizontalStack.Children.Add(verticalStack);
             foreach (var row in _priorityMap)
             {
@@ -107,54 +122,38 @@ class Visualisation : BindableObject
 
                 verticalStack.Children.Add(horizontalStackLayout);
             }
-            
-            horizontalStack.Children.Add(startStop);
-            scrollView.Content = horizontalStack;
-            _gamePage.Content = scrollView;
+
+            labelsLayout.Children.Add(grid);
+            labelsLayout.Children.Add(startStop);
+            horizontalStack.Children.Add(labelsLayout);
+            _gamePage.Content = horizontalStack;
             MapReady = true;
         });
     }
 
-    private HorizontalStackLayout AddButtonsToContainer()
+    private void CreateLabels(Grid grid)
     {
-        var horizontalContainer = new HorizontalStackLayout
-        {
-            BackgroundColor = new Color(255, 255, 255),
-            VerticalOptions = LayoutOptions.Center,
-            HorizontalOptions = LayoutOptions.Center,
-            Spacing = 10
-        };
-        var stopButton = CreateStopButton();
-        //var statisticButton = CreateGoToStatisticButton();
-        horizontalContainer.Add(stopButton);
-        //horisontalContainer.Add(statisticButton);
-        return horizontalContainer;
+        var turn = new Label {FontSize = 17, TextColor = new Color(0,0,0), Text = "Turn: "};
+        var preys = new Label {FontSize = 17, Text = "Preys: "};
+        var predators = new Label {FontSize = 17, Text = "Predators: "};
+
+        var turnsCount = new Label {FontSize = 17, BindingContext = _simulation.Statistics,};
+        var preysCount = new Label {FontSize = 17, BindingContext = _simulation.Statistics,};
+        var predatorsCount = new Label {FontSize = 17, BindingContext = _simulation.Statistics,};
+        
+        
+        turnsCount.SetBinding(Label.TextProperty, nameof(_simulation.Statistics.TurnsCount));
+        preysCount.SetBinding(Label.TextProperty, nameof(_simulation.Statistics.CurrentPreys));
+        predatorsCount.SetBinding(Label.TextProperty, nameof(_simulation.Statistics.CurrentPredators));
+        
+        grid.Add(turn, 0, 0);
+        grid.Add(turnsCount, 1,0);
+        grid.Add(preys, 0, 1);
+        grid.Add(preysCount, 1,1);
+        grid.Add(predators, 0, 2);
+        grid.Add(predatorsCount, 1,2);
     }
 
-    /*private Button CreateGoToStatisticButton()
-    {
-        var goToStatisticButton = new Button
-        {
-            BackgroundColor = new Color(50, 170, 255),
-            Text = "Go to statistic",
-            VerticalOptions = LayoutOptions.Center,
-            HorizontalOptions = LayoutOptions.Center,
-            TextColor = new Color(255, 255, 255),
-            WidthRequest = 200,
-        };
-        goToStatisticButton.Clicked += (senter, e) =>
-        {
-            if (_simulation.IsSimulationContinuing)
-                _simulation.IsSimulationContinuing = false;
-            lock (lockCells)
-            {
-                //MainThread.BeginInvokeOnMainThread(() =>
-                //   _gamePage.Navigation.PushAsync(new StatisticMenu(_simulation.Statistics)));
-            }
-        };
-
-        return goToStatisticButton;
-    }*/
     private Button CreateStopButton()
     {
         var stopButton = new Button
@@ -163,6 +162,7 @@ class Visualisation : BindableObject
             VerticalOptions = LayoutOptions.Center,
             HorizontalOptions = LayoutOptions.Center,
             WidthRequest = 100,
+            Margin = new Thickness(150, 10, 0, 0)
         };
         stopButton.Clicked += async (sender, e) =>
         {

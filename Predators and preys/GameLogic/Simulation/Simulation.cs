@@ -5,7 +5,7 @@ namespace Predators_and_preys.GameLogic.Simulation;
 
 class Simulation
 {
-    private readonly Statistics _statistics;
+    public readonly Statistics Statistics;
     public static event Action? Update;
     public delegate void AnimalsMove(List<GameObject>[,] map);
     public static event AnimalsMove? Move;
@@ -19,13 +19,13 @@ class Simulation
     {
         _delay = 200;
         MaxTurns = stepsAmount;
-        _statistics = new Statistics(map);
+        Statistics = new Statistics(map);
         _map = map;
     }
 
     public async void Start(Visualisation visualisation)
     {
-        while (_statistics.TurnsCount < MaxTurns && IsSimulationContinuing)
+        while (Statistics.TurnsCount < MaxTurns && IsSimulationContinuing)
         {
             await visualisation.GeneratePriorityMap();
             Thread.Sleep(_delay);
@@ -34,7 +34,7 @@ class Simulation
                 Update.Invoke();
                 Move.Invoke(_map);
             }
-            _statistics.RecordStatistics();
+            Statistics.RecordStatistics();
         }
     }
 }
